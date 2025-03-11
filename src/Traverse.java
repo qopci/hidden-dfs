@@ -69,5 +69,60 @@ public class Traverse {
     v45.neighbors = new ArrayList<>(List.of(v23));
     v23.neighbors = new ArrayList<>(List.of());
     v67.neighbors = new ArrayList<>(List.of(v91));
+
+    // printVertices(graph, 3);
+    printGossipers(diana);
+  }
+
+  public static void printGossipers(Person person) {
+    Set<Person> visited = new HashSet<>();
+    printGossipersHelper(person, visited);
+  }
+
+  public static void printGossipersHelper(Person person, Set<Person> visited) {
+    if (person == null) return;
+    if (visited.contains(person)) return;
+
+    System.out.println(person.getName());
+    visited.add(person);
+
+    for (Person confidant : person.getConfidants()) {
+      printGossipersHelper(confidant, visited);
+    }
+  }
+
+  public static void printVertices(Map<Integer, Set<Integer>> graph, int start) {
+    Set<Integer> visited = new HashSet<>();
+    printVerticesHelper(graph, start, visited);
+  }
+
+  public static void printVerticesHelper(Map<Integer, Set<Integer>> graph, int start, Set<Integer> visited) {
+    if (graph == null) return;
+    if (!graph.containsKey(start)) return;
+    if (visited.contains(start)) return;
+
+    System.out.println(start);
+    visited.add(start);
+
+    for (int neighbor : graph.get(start)) {
+      printVerticesHelper(graph, neighbor, visited);
+    }
+  }
+
+  public static <T> void printVertices(Vertex<T> vertex) {
+    Set<Vertex<T>> visited = new HashSet<>();
+    printHelper(vertex, visited);
+  }
+
+  public static <T> void printHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
+    if (vertex == null) return;
+    if (visited.contains(vertex)) return;
+
+    System.out.println(vertex.data);
+    visited.add(vertex);
+
+    for (Vertex<T> neighbor : vertex.neighbors) {
+      printHelper(neighbor, visited);
+    }
   }
 }
